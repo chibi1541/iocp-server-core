@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "ThreadManager.h"
 #include "CoreTLS.h"
 #include "CoreGlobal.h"
@@ -11,7 +11,7 @@
 
 ThreadManager::ThreadManager()
 {
-	// ¸ŞÀÎ ½º·¹µåÀÇ Thread Local Storage ÃÊ±âÈ­
+	// ë©”ì¸ ìŠ¤ë ˆë“œì˜ Thread Local Storage ì´ˆê¸°í™”
 	InitTLS();
 }
 
@@ -60,7 +60,7 @@ void ThreadManager::DoGlobalQueueWork()
 	while(true)
 	{
 		uint64 now = ::GetTickCount64();
-		if(now < LEndTickCount)
+		if(now > LEndTickCount)
 		{
 			break;		
 		}
