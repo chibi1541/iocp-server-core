@@ -182,6 +182,7 @@
     <ClInclude Include="DeadLockProfiler.h" />
     <ClInclude Include="FileUtils.h" />
     <ClInclude Include="GlobalQueue.h" />
+    <ClInclude Include="HelperFuncs.h" />
     <ClInclude Include="IocpCore.h" />
     <ClInclude Include="IocpEvent.h" />
     <ClInclude Include="Job.h" />
