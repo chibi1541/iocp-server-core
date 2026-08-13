@@ -22,3 +22,4 @@ using namespace std;
 #include "SendBuffer.h"
 #include "Session.h"
 #include "ConsoleLog.h"
+#include "HelperFuncs.h"
