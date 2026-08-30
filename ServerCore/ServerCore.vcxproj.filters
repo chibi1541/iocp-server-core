@@ -28,6 +28,12 @@
     <Filter Include="Log">
       <UniqueIdentifier>{650aff6f-ed28-4206-a180-d8d7cd8d4590}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Monitor">
+      <UniqueIdentifier>{3f1c9a72-6b25-4c8e-9f0a-2d51b7e4c611}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Admin">
+      <UniqueIdentifier>{a7d4e310-8c62-4f19-b0d3-6e95a1c8f742}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CorePch.h">
@@ -165,6 +171,27 @@
     <ClInclude Include="HelperFuncs.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Log</Filter>
+    </ClInclude>
+    <ClInclude Include="CrashDump.h">
+      <Filter>Log</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerStats.h">
+      <Filter>Monitor</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandRegistry.h">
+      <Filter>Admin</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleCommand.h">
+      <Filter>Admin</Filter>
+    </ClInclude>
+    <ClInclude Include="AdminSession.h">
+      <Filter>Admin</Filter>
+    </ClInclude>
+    <ClInclude Include="AdminServer.h">
+      <Filter>Admin</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CorePch.cpp">
@@ -271,6 +298,27 @@
     </ClCompile>
     <ClCompile Include="DBSynchronizer.cpp">
       <Filter>DB</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Log</Filter>
+    </ClCompile>
+    <ClCompile Include="CrashDump.cpp">
+      <Filter>Log</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerStats.cpp">
+      <Filter>Monitor</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandRegistry.cpp">
+      <Filter>Admin</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsoleCommand.cpp">
+      <Filter>Admin</Filter>
+    </ClCompile>
+    <ClCompile Include="AdminSession.cpp">
+      <Filter>Admin</Filter>
+    </ClCompile>
+    <ClCompile Include="AdminServer.cpp">
+      <Filter>Admin</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -77,6 +77,28 @@ void SendBufferChunk::Close(uint32 size)
 	SendBufferManager
 -------------------------*/
 
+Atomic<bool> SendBufferManager::s_shuttingDown = false;
+
+SendBufferManager::~SendBufferManager()
+{
+	s_shuttingDown.store(true);
+
+	// Move the held chunks out first, then release them.
+	// PushGlobal now takes the xdelete path, so there is no loop.
+	// StlAllocator has no operator==, so std::vector::swap will not compile here.
+	Vector<SendBufferChunkRef> chunks;
+	{
+		WRITE_LOCK;
+		chunks.reserve(_sendBufferChunks.size());
+		for (const SendBufferChunkRef& chunk : _sendBufferChunks)
+			chunks.push_back(chunk);
+
+		_sendBufferChunks.clear();
+	}
+
+	chunks.clear();
+}
+
 SendBufferRef SendBufferManager::Open(uint32 size)
 {
 	// TLS에 chunk가 없으면 pop해서 청크를 TLS에 할당
@@ -125,7 +147,15 @@ void SendBufferManager::Push(SendBufferChunkRef buffer)
 
 void SendBufferManager::PushGlobal(SendBufferChunk* buffer)
 {
-	cout << "PushGlobal SENDBUFFERCHUNK" << endl;
+	// Do not recycle once we are shutting down, or the manager is already gone.
+	// (a thread's LSendBufferChunk can be released late, on thread exit)
+	if (s_shuttingDown.load() || GSendBufferManager == nullptr)
+	{
+		xdelete(buffer);
+		return;
+	}
+
+	LOG_TRACE(L"PushGlobal SendBufferChunk");
 
 	GSendBufferManager->Push(SendBufferChunkRef(buffer, PushGlobal));
 }

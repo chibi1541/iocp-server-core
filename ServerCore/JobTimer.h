@@ -35,6 +35,13 @@ public:
 	void		Distribute(uint64 now);
 	void		Clear();
 
+	/* Monitoring */
+	int32		GetReservedCount()
+	{
+		READ_LOCK;
+		return static_cast<int32>(_items.size());
+	}
+
 
 private:
 	USE_LOCK;

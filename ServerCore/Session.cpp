@@ -2,6 +2,7 @@
 #include "Session.h"
 #include "SocketUtils.h"
 #include "Service.h"
+#include "ServerStats.h"
 
 /*--------------
 	Session
@@ -25,8 +26,7 @@ void Session::Disconnect(const WCHAR* cause)
 		return;
 	}
 
-	// TEMP
-	wcout << "Disconnect : " << cause << endl;
+	LOG_INFO(L"Session disconnect : %s", cause);
 
 	RegisterDisconnect();
 }
@@ -252,6 +252,9 @@ void Session::ProcessRecv(int32 numOfBytes)
 		return;
 	}
 
+	if (GServerStats != nullptr)
+		GServerStats->OnRecv(numOfBytes);
+
 	int32 dataSize = _recvBuffer.DataSize();
 	// 실제 처리한 버퍼 사이즈를 반환하도록 해야함
 	int32 processLen = OnRecv(_recvBuffer.ReadPos(), numOfBytes);
@@ -278,6 +281,9 @@ void Session::ProcessSend(int32 numOfBytes)
 		return;
 	}
 
+	if (GServerStats != nullptr)
+		GServerStats->OnSend(numOfBytes);
+
 	OnSend(numOfBytes);
 
 	WRITE_LOCK;
@@ -300,10 +306,7 @@ void Session::HandleError(int32 errorCode)
 			Disconnect(L"HandleError");
 			break;
 		default:
-			// TODO : loging
-			// 콘솔 출력도 Context Switching이라는 비용이 발생하기 때문에
-			// 추후에 이를 담당하는 스레드를 만들어서 로깅을 처리 할 예정
-			cout << "Handle Error : " << errorCode << endl;
+			LOG_WARN(L"Session HandleError : %d", errorCode);
 			break;
 	}
 }

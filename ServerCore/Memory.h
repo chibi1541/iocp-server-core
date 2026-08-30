@@ -22,6 +22,10 @@ public:
 	void* Allocate(int32 size);
 	void Release(void* ptr);
 
+	/* Monitoring : total pool usage (meaningless while _STOMP is defined) */
+	void CollectPoolStats(OUT int32& useCount, OUT int32& reserveCount);
+	int32 GetPoolCount() const { return static_cast<int32>(_pools.size()); }
+
 private:
 	vector<MemoryPool*> _pools;
 

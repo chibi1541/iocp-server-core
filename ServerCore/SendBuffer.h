@@ -57,7 +57,16 @@ private:
 class SendBufferManager
 {
 public:
+	~SendBufferManager();
+
 	SendBufferRef Open(uint32 size);
+
+	/* Monitoring */
+	int32 GetChunkCount()
+	{
+		READ_LOCK;
+		return static_cast<int32>(_sendBufferChunks.size());
+	}
 
 private:
 	SendBufferChunkRef Pop();
@@ -68,5 +77,9 @@ private:
 private:
 	USE_LOCK;
 	Vector<SendBufferChunkRef> _sendBufferChunks;
+
+	// While shutting down, chunks are freed instead of recycled.
+	// (pushing back into _sendBufferChunks while it is being destroyed loops forever)
+	static Atomic<bool> s_shuttingDown;
 };
 

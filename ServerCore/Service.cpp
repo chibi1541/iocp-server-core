@@ -2,6 +2,7 @@
 #include "Service.h"
 #include "Session.h"
 #include "Listener.h"
+#include "ServerStats.h"
 
 /*-------------
 	Service
@@ -42,6 +43,9 @@ void Service::AddSession(SessionRef session)
 	WRITE_LOCK;
 	_sessionCount++;
 	_sessions.insert(session);
+
+	if (GServerStats != nullptr)
+		GServerStats->OnAccept();
 }
 
 void Service::ReleaseSession(SessionRef session)
@@ -49,6 +53,17 @@ void Service::ReleaseSession(SessionRef session)
 	WRITE_LOCK;
 	ASSERT_CRASH(_sessions.erase(session) != 0);
 	_sessionCount--;
+
+	if (GServerStats != nullptr)
+		GServerStats->OnDisconnect();
+}
+
+void Service::CollectSessions(OUT Vector<SessionRef>& sessions)
+{
+	READ_LOCK;
+	sessions.reserve(_sessions.size());
+	for (const auto& session : _sessions)
+		sessions.push_back(session);
 }
 
 void Service::Broadcast(SendBufferRef sendBuffer)

@@ -8,3 +8,7 @@ extern class GlobalQueue*			GGlobalQueue;
 extern class JobTimer*				GJobTimer;
 extern class DBConnectionPool*		GDBConnectionPool;
 extern class ConsoleLog*			GConsoleLogger;
+extern class Logger*				GLogger;
+extern class ServerStats*			GServerStats;
+extern class CommandRegistry*		GCommandRegistry;
+extern class ConsoleCommand*		GConsoleCommand;

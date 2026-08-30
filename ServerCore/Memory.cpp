@@ -98,3 +98,15 @@ void Memory::Release(void* ptr)
 #endif
 
 }
+
+void Memory::CollectPoolStats(OUT int32& useCount, OUT int32& reserveCount)
+{
+	useCount = 0;
+	reserveCount = 0;
+
+	for (MemoryPool* pool : _pools)
+	{
+		useCount += pool->GetUseCount();
+		reserveCount += pool->GetReserveCount();
+	}
+}

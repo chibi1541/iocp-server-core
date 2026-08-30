@@ -36,6 +36,9 @@ public:
 	int32 GetCurrentSessionCount() {return _sessionCount;}
 	int32 GetMaxSessionCount() {return _maxSessionCount;}
 
+	/* Monitoring : snapshot copy of the live session set */
+	void CollectSessions(OUT Vector<SessionRef>& sessions);
+
 	void Broadcast(SendBufferRef sendBuffer);
 
 public:

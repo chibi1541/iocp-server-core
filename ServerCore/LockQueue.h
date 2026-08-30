@@ -37,6 +37,13 @@ public:
 		_items = Queue<T>();
 	}
 
+	/* Monitoring */
+	int32 GetSize()
+	{
+		READ_LOCK;
+		return static_cast<int32>(_items.size());
+	}
+
 
 private:
 	USE_LOCK;

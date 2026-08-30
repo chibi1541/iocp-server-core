@@ -3,7 +3,7 @@
 
 NetAddress::NetAddress(SOCKADDR_IN sockAddr)
 {
-
+	_sockAddr = sockAddr;
 }
 
 NetAddress::NetAddress(wstring ip, uint16 port)

@@ -45,6 +45,11 @@ public:
 	void			Push(MemoryHeader* ptr);
 	MemoryHeader* Pop();
 
+	/* Monitoring */
+	int32			GetAllocSize() const { return _allocSize; }
+	int32			GetUseCount() const { return _useCount.load(); }
+	int32			GetReserveCount() const { return _reserveCount.load(); }
+
 private:
 	SLIST_HEADER	_header;
 	int32			_allocSize = 0;

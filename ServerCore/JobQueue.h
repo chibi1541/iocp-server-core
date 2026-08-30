@@ -40,6 +40,10 @@ public:
 	}
 
 	void ClearJobs() { _jobs.Clear(); }
+
+	/* Monitoring */
+	int32 GetJobCount() { return _jobCount.load(); }
+
 	void Execute();
 	void Push(JobRef job, bool pushOnly = false);
 

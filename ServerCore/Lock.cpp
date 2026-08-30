@@ -5,7 +5,11 @@
 void Lock::WriteLock(const char* name)
 {
 #if _DEBUG
-	GDeadLockProfiler->PushLock(name);
+	// A null GDeadLockProfiler means we are shutting down.
+	// The thread_local LLockStack it relies on may already be destroyed,
+	// so skip profiling.
+	if (GDeadLockProfiler != nullptr)
+		GDeadLockProfiler->PushLock(name);
 #endif
 
 	// 이미 해당 쓰레드가 Write Lock을 점유한 경우
@@ -44,7 +48,8 @@ void Lock::WriteLock(const char* name)
 void Lock::WriteUnlock(const char* name)
 {
 #if _DEBUG
-	GDeadLockProfiler->PopLock(name);
+	if (GDeadLockProfiler != nullptr)
+		GDeadLockProfiler->PopLock(name);
 #endif
 
 	// Read Lock을 점유 중인 상태에서 Write Lock을 해제할 수 없음
@@ -59,7 +64,11 @@ void Lock::WriteUnlock(const char* name)
 void Lock::ReadLock(const char* name)
 {
 #if _DEBUG
-	GDeadLockProfiler->PopLock(name);
+	// A null GDeadLockProfiler means we are shutting down.
+	// The thread_local LLockStack it relies on may already be destroyed,
+	// so skip profiling.
+	if (GDeadLockProfiler != nullptr)
+		GDeadLockProfiler->PushLock(name);
 #endif
 
 	// 이미 Write Lock을 점유한 상태라면 (다른 쓰레드의 접근이 불가능하니)
@@ -98,7 +107,8 @@ void Lock::ReadLock(const char* name)
 void Lock::ReadUnlock(const char* name)
 {
 #if _DEBUG
-	GDeadLockProfiler->PopLock(name);
+	if (GDeadLockProfiler != nullptr)
+		GDeadLockProfiler->PopLock(name);
 #endif
 
 	// 재약이 없나?

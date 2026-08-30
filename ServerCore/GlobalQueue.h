@@ -15,6 +15,9 @@ public:
 
 	JobQueueRef Pop();
 
+	/* Monitoring */
+	int32 GetSize() { return _jobQueue.GetSize(); }
+
 private:
 	LockQueue<JobQueueRef> _jobQueue;
 };

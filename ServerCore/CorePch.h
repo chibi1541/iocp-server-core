@@ -15,6 +15,9 @@
 #include <iostream>
 using namespace std;
 
+#include "Logger.h"
+#include "CrashDump.h"
+
 #include "Lock.h"
 #include "ObjectPool.h"
 #include "TypeCast.h"

@@ -165,15 +165,20 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AdminServer.h" />
+    <ClInclude Include="AdminSession.h" />
     <ClInclude Include="Allocator.h" />
     <ClInclude Include="BufferReader.h" />
     <ClInclude Include="BufferWriter.h" />
+    <ClInclude Include="CommandRegistry.h" />
+    <ClInclude Include="ConsoleCommand.h" />
     <ClInclude Include="ConsoleLog.h" />
     <ClInclude Include="Container.h" />
     <ClInclude Include="CoreGlobal.h" />
     <ClInclude Include="CoreMacro.h" />
     <ClInclude Include="CorePch.h" />
     <ClInclude Include="CoreTLS.h" />
+    <ClInclude Include="CrashDump.h" />
     <ClInclude Include="DBBind.h" />
     <ClInclude Include="DBConnection.h" />
     <ClInclude Include="DBConnectionPool.h" />
@@ -191,6 +196,7 @@
     <ClInclude Include="Listener.h" />
     <ClInclude Include="Lock.h" />
     <ClInclude Include="LockQueue.h" />
+    <ClInclude Include="Logger.h" />
     <ClInclude Include="Memory.h" />
     <ClInclude Include="MemoryPool.h" />
     <ClInclude Include="NetAddress.h" />
@@ -203,6 +209,7 @@
     <ClInclude Include="RecvBuffer.h" />
     <ClInclude Include="RefCounting.h" />
     <ClInclude Include="SendBuffer.h" />
+    <ClInclude Include="ServerStats.h" />
     <ClInclude Include="Service.h" />
     <ClInclude Include="Session.h" />
     <ClInclude Include="SocketUtils.h" />
@@ -212,13 +219,18 @@
     <ClInclude Include="XmlParser.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AdminServer.cpp" />
+    <ClCompile Include="AdminSession.cpp" />
     <ClCompile Include="Allocator.cpp" />
     <ClCompile Include="BufferReader.cpp" />
     <ClCompile Include="BufferWriter.cpp" />
+    <ClCompile Include="CommandRegistry.cpp" />
+    <ClCompile Include="ConsoleCommand.cpp" />
     <ClCompile Include="ConsoleLog.cpp" />
     <ClCompile Include="CoreGlobal.cpp" />
     <ClCompile Include="CorePch.cpp" />
     <ClCompile Include="CoreTLS.cpp" />
+    <ClCompile Include="CrashDump.cpp" />
     <ClCompile Include="DBBind.cpp" />
     <ClCompile Include="DBConnection.cpp" />
     <ClCompile Include="DBConnectionPool.cpp" />
@@ -235,6 +247,7 @@
     <ClCompile Include="Listener.cpp" />
     <ClCompile Include="Lock.cpp" />
     <ClCompile Include="LockQueue.cpp" />
+    <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Memory.cpp" />
     <ClCompile Include="MemoryPool.cpp" />
     <ClCompile Include="NetAddress.cpp" />
@@ -247,6 +260,7 @@
     <ClCompile Include="RecvBuffer.cpp" />
     <ClCompile Include="RefCounting.cpp" />
     <ClCompile Include="SendBuffer.cpp" />
+    <ClCompile Include="ServerStats.cpp" />
     <ClCompile Include="Service.cpp" />
     <ClCompile Include="Session.cpp" />
     <ClCompile Include="SocketUtils.cpp" />

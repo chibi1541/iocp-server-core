@@ -271,8 +271,7 @@ void DBConnection::HandleError(SQLRETURN ret)
 			break;
 
 		// TODO : Log, 별도의 text 형태로 로그를 남겨야 함
-		wcout.imbue(locale("kor"));
-		wcout << errMsg << endl;
+		LOG_ERROR(L"DB Error : %s", errMsg);
 
 		index++;
 	}
