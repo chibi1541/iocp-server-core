@@ -70,4 +70,5 @@ Testing/
 .cache/
 
 #visual studio
+*.sln
 .vs/
