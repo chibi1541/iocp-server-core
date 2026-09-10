@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "Session.h"
 #include "SocketUtils.h"
 #include "Service.h"
@@ -22,7 +22,7 @@ void Session::Disconnect(const WCHAR* cause)
 {
 	if(_connected.exchange(false) == false)
 	{
-		// ÀÌ¹Ì false »óÅÂÀÎ °æ¿ì
+		// ì´ë¯¸ false ìƒíƒœì¸ ê²½ìš°
 		return;
 	}
 
@@ -41,10 +41,10 @@ void Session::Send(SendBufferRef buffer)
 	if (IsConnected() == false)
 		return;
 
-	// 0. queue°¡ ¶ôÇÁ¸®°¡ ¾Æ´Ï¹Ç·Î ¶ôÀ» °É¾î¾ß ÇÔ
-	// 1. sessionÀÇ buffer queue¿¡ ¹Ğ¾î ³Ö°í
-	// 2-1. send register°¡ ¾Æ´Ñ »óÅÂ¶ó¸é RegisterSend¸¦ È£Ãâ
-	// 2-2. send register°¡ °É·Á ÀÖ´Ù¸é ·ÎÁ÷À» ºüÁ® ³ª¿È
+	// 0. queueê°€ ë½í”„ë¦¬ê°€ ì•„ë‹ˆë¯€ë¡œ ë½ì„ ê±¸ì–´ì•¼ í•¨
+	// 1. sessionì˜ buffer queueì— ë°€ì–´ ë„£ê³ 
+	// 2-1. send registerê°€ ì•„ë‹Œ ìƒíƒœë¼ë©´ RegisterSendë¥¼ í˜¸ì¶œ
+	// 2-2. send registerê°€ ê±¸ë ¤ ìˆë‹¤ë©´ ë¡œì§ì„ ë¹ ì ¸ ë‚˜ì˜´
 	bool sendRegister = false;
 
 	{
@@ -56,7 +56,7 @@ void Session::Send(SendBufferRef buffer)
 
 	}
 
-	// RegisterSend¸¦ È£ÃâÇÏ±â Àü¿¡ lockÀ» ÇØÁ¦ ÇÒ ¼ö ÀÖÀ½
+	// RegisterSendë¥¼ í˜¸ì¶œí•˜ê¸° ì „ì— lockì„ í•´ì œ í•  ìˆ˜ ìˆìŒ
 	if(sendRegister)
 		RegisterSend();
 
@@ -99,7 +99,7 @@ bool Session::RegisterConnect()
 	if(SocketUtils::SetReuseAddress(_socket, true) == false)
 		return false;
 
-	if(SocketUtils::BindAnyAddress(_socket, /*ºñ¾îÀÖ´Â ¾Æ¹« Æ÷Æ®³ª ÇÒ´ç*/0) == false)
+	if(SocketUtils::BindAnyAddress(_socket, /*ë¹„ì–´ìˆëŠ” ì•„ë¬´ í¬íŠ¸ë‚˜ í• ë‹¹*/0) == false)
 		return false;
 
 	_connectEvent.Init();
@@ -176,12 +176,12 @@ void Session::RegisterSend()
 		WRITE_LOCK;
 
 		int32 writeSize = 0;
-		// ¿ø·¡ ¿©±â¼­ ¹«ÀÛÁ¤ queue¿¡ ÀÖ´Â°É ´Ù º¸³»¸é ¾ÈµÅ°í Àû´çÈ÷ ²÷¾î¾ß ÇÔ
+		// ì›ë˜ ì—¬ê¸°ì„œ ë¬´ì‘ì • queueì— ìˆëŠ”ê±¸ ë‹¤ ë³´ë‚´ë©´ ì•ˆë¼ê³  ì ë‹¹íˆ ëŠì–´ì•¼ í•¨
 		while (!_sendQueue.empty())
 		{
 			SendBufferRef sendBuffer = _sendQueue.front();
 			writeSize += sendBuffer->WriteSize();
-			// ¿©±â ¿¹¿Ü Ã¼Å©
+			// ì—¬ê¸° ì˜ˆì™¸ ì²´í¬
 
 			_sendQueue.pop();
 			_sendEvent.sendBuffers.push_back(sendBuffer);
@@ -219,7 +219,7 @@ void Session::ProcessConnect()
 
 	_connected.store(true);
 
-	// ¼­ºñ½º¿¡ Sessionµî·Ï
+	// ì„œë¹„ìŠ¤ì— Sessionë“±ë¡
 	GetService()->AddSession(GetSessionRef());
 
 	OnConnected();
@@ -245,7 +245,7 @@ void Session::ProcessRecv(int32 numOfBytes)
 		return;
 	}
 
-	// Register°¡ ¾Æ´Ï¶ó ¿©±â¼­ OnWrite¸¦ Ã³¸®ÇØ¾ß numOfBytes °ªÀ» ¾Ë ¼ö ÀÖÀ½
+	// Registerê°€ ì•„ë‹ˆë¼ ì—¬ê¸°ì„œ OnWriteë¥¼ ì²˜ë¦¬í•´ì•¼ numOfBytes ê°’ì„ ì•Œ ìˆ˜ ìˆìŒ
 	if(_recvBuffer.OnWrite(numOfBytes) == false)
 	{
 		Disconnect(L"OnWrite Overflow");
@@ -256,8 +256,8 @@ void Session::ProcessRecv(int32 numOfBytes)
 		GServerStats->OnRecv(numOfBytes);
 
 	int32 dataSize = _recvBuffer.DataSize();
-	// ½ÇÁ¦ Ã³¸®ÇÑ ¹öÆÛ »çÀÌÁî¸¦ ¹İÈ¯ÇÏµµ·Ï ÇØ¾ßÇÔ
-	int32 processLen = OnRecv(_recvBuffer.ReadPos(), numOfBytes);
+	// ì‹¤ì œ ì²˜ë¦¬í•œ ë²„í¼ ì‚¬ì´ì¦ˆë¥¼ ë°˜í™˜í•˜ë„ë¡ í•´ì•¼í•¨
+	int32 processLen = OnRecv(_recvBuffer.ReadPos(), dataSize);
 
 	if( processLen < 0 || dataSize < processLen || _recvBuffer.OnRead(processLen) == false)
 	{
